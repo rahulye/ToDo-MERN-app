@@ -18,13 +18,13 @@ plugins : [tailwindcss()]
 
 npm init -y
 npm install express
-npm install mongoose
-npm install nodemon
+npm install mongoose     //mongoose contains mongodb node.js drive internally no need to install mongodb separately
+npm install -D nodemon
 npm install cors
 npm install axios
 npm install dotenv         //for .env 
 
---> add "dev" : "nodemon server.js"
+--> add "dev" : "nodemon src/server.js"
 
 >>>>JWT
 npm install bcryptjs

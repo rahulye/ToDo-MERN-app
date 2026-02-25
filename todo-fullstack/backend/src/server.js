@@ -4,14 +4,20 @@ import express from "express";
 import { config } from "dotenv";
 config({ quiet: true });
 const app = express();
-import Task from "./models/task.js";
 import { connectDB, disconnectDB } from "./config/db.js";
+import errorMiddleware from "./middleware/errorMiddleware.js";
+
+//to handle POST
+app.use(express.json());
 
 //ROUTES
-app.get("/", async (req, res) => {
-	const task = await Task.create({ task: "hey" });
-	res.json({ message: task });
-});
+import taskRoutes from "./routes/taskRoutes.js";
+
+//http://localhost:5001/tasks
+app.use("/tasks", taskRoutes);
+
+//error middleware
+app.use(errorMiddleware);
 
 // START SERVER & CONNECT DB
 const PORT = process.env.PORT || 5001;
@@ -21,18 +27,16 @@ const server = app.listen(PORT, async () => {
 	await connectDB();
 });
 
-// SHUTDOWN SERVER and DB 
-const gracefulShutdown = async (signal, err) => {
-	if (err) console.error(signal, err);
-
-	console.log(`${signal} received`);
-	console.log("Shutting down server...");
-	
+// SHUTDOWN SERVER & DB
+const gracefulShutdown = async (reason, err) => {
+	if (err) console.error(reason, err);
+	console.log(`${reason} received`);
+	console.log("Shutting down Server...");
 	server.close(async () => {
 		try {
+			console.log("DB Disconnected Successfully");
+			console.log("Server Shutdown Completed");
 			await disconnectDB();
-			console.log("DB disconnected");
-			console.log("Server shutdown completed");
 			process.exit(0);
 		} catch (error) {
 			console.error("Shutdown failed", error);
@@ -41,12 +45,12 @@ const gracefulShutdown = async (signal, err) => {
 	});
 };
 // OS signals
-process.on("SIGINT", gracefulShutdown);  // here shutdownDB is a callback()
-process.on("SIGTERM", gracefulShutdown);  //doorbell.on("ring", openDoor);
+process.on("SIGINT", () => gracefulShutdown("SIGINT")); //doorbell.on("ring", openDoor);
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 // Runtime errors
 process.on("unhandledRejection", (err) =>
-	gracefulShutdown("unhandledRejection", err)
+	gracefulShutdown("unhandledRejection", err),
 );
 process.on("uncaughtException", (err) =>
-	gracefulShutdown("uncaughtException", err)
+	gracefulShutdown("uncaughtException", err),
 );

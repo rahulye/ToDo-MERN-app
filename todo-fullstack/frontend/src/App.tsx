@@ -7,8 +7,8 @@ import { MainPage } from "./components/MainPage";
 
 const App: FC = () => {
 	return (
-		<div className="flex border flex-col items-center px-5">
-			<div className="max-w-150 w-full p-4 border-green-700 border m-10 ">
+		<div className="flex flex-col items-center px-5">
+			<div className="max-w-150 w-full p-4 border-green-700 m-10 ">
 				<Header/>
 				<MainPage/>
 			</div>

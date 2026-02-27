@@ -6,6 +6,15 @@ config({ quiet: true });
 const app = express();
 import { connectDB, disconnectDB } from "./config/db.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+import cors from "cors";
+
+app.use(
+	cors({
+		origin: ["http://localhost:5173" || process.env.ALLOWED_URL],
+		methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+		credentials: true,
+	}),
+);
 
 //to handle POST
 app.use(express.json());

@@ -4,7 +4,7 @@ import Task from "../models/task.js";
 // READ ALL TASK
 const getAllTask = async (req, res, next) => {
 	try {
-		const tasks = await Task.find().sort({ createdAt: 1 });
+		const tasks = await Task.find().sort({ createdAt: -1 });
 		res.status(200).json(tasks);
 	} catch (err) {
 		next(err);

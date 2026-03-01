@@ -76,4 +76,19 @@ const deleteTask = async (req, res, next) => {
 	}
 };
 
-export { createTask, getAllTask, deleteTask, toggleTaskStatus };
+// DELETE ALL
+const deleteAllTask = async (req,res,next) => {
+	try {
+		await Task.deleteMany({});
+		res.status(200).json({
+			status : "Success",
+			message : "All tasks are deleted",
+			data : Task
+		})
+	}
+	catch(err) {
+		next(err);
+	}
+}
+
+export { createTask, getAllTask, deleteTask, toggleTaskStatus , deleteAllTask };

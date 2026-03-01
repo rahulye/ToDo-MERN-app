@@ -77,6 +77,17 @@ export const MainPage: FC = () => {
 		}
 	};
 
+	// DELETE ALL TASK
+	const deletAllTask = async (): Promise<void> => {
+		try {
+			if (tasks.length === 0) return;
+			await axios.delete(`${apiURL}/tasks/clear`);
+			setTasks([]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<main>
 			<section className="flex gap-3 mt-3">
@@ -94,25 +105,34 @@ export const MainPage: FC = () => {
 					ADD
 				</button>
 				<button
-					className="text-white hover:ring cursor-pointer
-				 ring-gray-500 bg-gray-600 p-2 rounded"
+					className={
+						tasks.length === 0
+							? "hover:bg-gray-400 bg-gray-600 hover:ring cursor-no-drop text-white p-2 rounded"
+							: "text-white hover:ring cursor-pointer ring-gray-500 bg-gray-600 p-2 rounded"
+					}
+					onClick={deletAllTask}
+					disabled={tasks.length === 0}
 				>
 					CLEAR ALL
 				</button>
 			</section>
 			<div className="mt-8">
-			{tasks.map((t) => {
-				return (
-					<Task
-						key={t._id}
-						id={t._id}
-						taskStatus={t.taskStatus}
-						task={t.task}
-						toggleStatus={toggleStatus}
-						deletetask={deleteTask}
-					/>
-				);
-			})}
+				{tasks.length === 0 ? (
+					<p className="text-xs">No tasks yet. Add one 👆</p>
+				) : (
+					tasks.map((t) => {
+						return (
+							<Task
+								key={t._id}
+								id={t._id}
+								taskStatus={t.taskStatus}
+								task={t.task}
+								toggleStatus={toggleStatus}
+								deletetask={deleteTask}
+							/>
+						);
+					})
+				)}
 			</div>
 		</main>
 	);

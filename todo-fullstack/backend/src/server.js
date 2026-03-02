@@ -21,8 +21,10 @@ app.use(express.json());
 
 //ROUTES
 import taskRoutes from "./routes/taskRoutes.js";
+import authRoutes from './routes/authRoutes.js';
 
 //http://localhost:5001/tasks
+app.use("/auth",authRoutes)
 app.use("/tasks", taskRoutes);
 
 //error middleware

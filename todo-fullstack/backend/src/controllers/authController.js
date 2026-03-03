@@ -33,11 +33,14 @@ const register = async (req, res) => {
 			password: hashPassword,
 		});
 
-		generateToken(user._id, res);
+		const token = generateToken(user._id, res);
 
 		res.status(201).json({
 			status: "Success",
 			message: "Registered Successfully",
+			data : {
+				token
+			}
 		});
 	} catch (err) {
 		console.log(err);
@@ -62,7 +65,7 @@ const login = async (req, res) => {
 		if (!userExist) {
 			return res.status(401).json({
 				status: "Error",
-				message: "User not found",
+				message: "User not founzd",
 			});
 		}
 
@@ -74,11 +77,15 @@ const login = async (req, res) => {
 			});
 		}
 
-		generateToken(userExist._id, res);
+		const token = generateToken(userExist._id, res);
 
 		res.status(201).json({
 			status: "Success",
 			message: "Login Successfully",
+			data : {
+				userExist,
+				token
+			}
 		});
 	} catch (err) {
 		console.log(err);

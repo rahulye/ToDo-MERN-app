@@ -7,7 +7,9 @@ const app = express();
 import { connectDB, disconnectDB } from "./config/db.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
+app.use(cookieParser());
 app.use(
 	cors({
 		origin: ["http://localhost:5173" || process.env.ALLOWED_URL],

@@ -8,9 +8,12 @@ import {
 	getAllTask,
 	toggleTaskStatus,
 } from "../controllers/taskController.js";
+import authmiddleware from "../middleware/authMiddleware.js"
 
 const router = express.Router();
 
+
+router.use(authmiddleware);
 router.get("/", getAllTask);
 router.post("/", createTask);
 router.delete("/clear",deleteAllTask)

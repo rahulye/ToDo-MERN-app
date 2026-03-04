@@ -2,17 +2,15 @@
 
 import axios, { AxiosError } from "axios";
 import { useState, type FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
 const apiURL = import.meta.env.VITE_API_URL;
 
-interface RegisterProps {
-	onLogin: () => void;
-}
-
-const Register: FC<RegisterProps> = ({ onLogin }) => {
+const Register: FC = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [message, setMessage] = useState("");
-
+	const [isError, setIsError] = useState(false);
+	const navigate = useNavigate();
 	const handleLogin = async (
 		e: React.MouseEvent<HTMLButtonElement>,
 	): Promise<void> => {
@@ -27,8 +25,12 @@ const Register: FC<RegisterProps> = ({ onLogin }) => {
 				{ withCredentials: true },
 			);
 			setMessage(response.data.message);
-			onLogin();
+			setIsError(false);
+			setTimeout(() => {
+				navigate("/");
+			}, 700);
 		} catch (err) {
+			setIsError(true);
 			const error = err as AxiosError<{ message: string }>;
 			console.log(error);
 			const errMessage = error?.response?.data?.message || "Login Failed";
@@ -41,7 +43,7 @@ const Register: FC<RegisterProps> = ({ onLogin }) => {
 
 	return (
 		<div className="flex justify-center">
-			<form className="rounded p-4 flex items-center flex-col justify-center gap-1 w-70 h-65 bg-gray-400">
+			<form className="rounded p-4 flex items-center flex-col justify-center gap-1 w-70 h-70 bg-gray-400">
 				<div className="text-lg font-bold mb-5">Register</div>
 				<input
 					autoComplete="email"
@@ -63,7 +65,24 @@ const Register: FC<RegisterProps> = ({ onLogin }) => {
 				>
 					Register
 				</button>
-				{message && <div className="text-xs text-center mt-2">{message}</div>}
+				<div className="text-sm mt-1">
+					Already have an account?
+					<Link
+						className="text-blue-700 cursor-pointer pl-1 hover:underline"
+						to="/login"
+					>
+						login
+					</Link>
+				</div>
+				{message && (
+					<div
+						className={`text-sm text-center mt-2 ${
+							isError ? "text-red-800" : "text-green-700"
+						}`}
+					>
+						{message}
+					</div>
+				)}
 			</form>
 		</div>
 	);

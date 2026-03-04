@@ -65,7 +65,7 @@ const login = async (req, res) => {
 		if (!userExist) {
 			return res.status(401).json({
 				status: "Error",
-				message: "User not founzd",
+				message: "User not found",
 			});
 		}
 
@@ -120,4 +120,19 @@ const logout = async (req, res) => {
 	}
 };
 
-export { register, login, logout };
+// VERIFY LOG
+const getMe = async (req, res) => {
+	try {
+		res.status(200).json({
+			status: "Success",
+			data: req.user,
+		});
+	} catch (err) {
+		res.status(500).json({
+			status: "Error",
+			message: "Server error",
+		});
+	}
+};
+
+export { register, login, logout , getMe };

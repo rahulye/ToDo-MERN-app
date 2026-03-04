@@ -1,7 +1,7 @@
 /** @format */
 
 import { useEffect, useState, type ChangeEvent, type FC } from "react";
-import { Task } from "./Tasks";
+import { Task } from "../Tasks";
 import axios from "axios";
 
 const apiURL = import.meta.env.VITE_API_URL;
@@ -32,7 +32,9 @@ export const MainPage: FC = () => {
 	//TOGGLE TASK
 	const toggleStatus = async (id: string): Promise<void> => {
 		try {
-			const response = await axios.patch(`${apiURL}/tasks/${id}`);
+			const response = await axios.get(`${apiURL}/tasks`, {
+				withCredentials: true,
+			});
 			const updatedTask = response.data.data;
 			console.log(updatedTask);
 			setTasks((prev) => {

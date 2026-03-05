@@ -2,9 +2,8 @@
 
 import { useEffect, useState, type ChangeEvent, type FC } from "react";
 import { Task } from "../Tasks";
-import axios from "axios";
+import api from "../../api/api";
 
-const apiURL = import.meta.env.VITE_API_URL;
 interface TaskType {
 	_id: string;
 	taskStatus: boolean;
@@ -20,8 +19,8 @@ export const MainPage: FC = () => {
 	useEffect(() => {
 		try {
 			const fetchTasks = async (): Promise<void> => {
-				const response = await axios(`${apiURL}/tasks`);
-				setTasks(response.data);
+				const response = await api.get("/tasks");
+				setTasks(response.data.data);
 			};
 			fetchTasks();
 		} catch (error) {
@@ -32,9 +31,7 @@ export const MainPage: FC = () => {
 	//TOGGLE TASK
 	const toggleStatus = async (id: string): Promise<void> => {
 		try {
-			const response = await axios.get(`${apiURL}/tasks`, {
-				withCredentials: true,
-			});
+			const response = await api.get("/tasks");
 			const updatedTask = response.data.data;
 			console.log(updatedTask);
 			setTasks((prev) => {
@@ -55,7 +52,7 @@ export const MainPage: FC = () => {
 			}, 500);
 			return;
 		}
-		const response = await axios.post(`${apiURL}/tasks`, {
+		const response = await api.post('/tasks', {
 			task: inputTask,
 		});
 		console.log(response.data);
@@ -70,7 +67,7 @@ export const MainPage: FC = () => {
 	//DELETE TASK
 	const deleteTask = async (id: string): Promise<void> => {
 		try {
-			await axios.delete(`${apiURL}/tasks/${id}`);
+			await api.delete(`/tasks/${id}`);
 			setTasks((prev) => {
 				return prev.filter((task) => task._id !== id);
 			});
@@ -83,7 +80,7 @@ export const MainPage: FC = () => {
 	const deletAllTask = async (): Promise<void> => {
 		try {
 			if (tasks.length === 0) return;
-			await axios.delete(`${apiURL}/tasks/clear`);
+			await api.delete('/tasks/clear');
 			setTasks([]);
 		} catch (error) {
 			console.log(error);

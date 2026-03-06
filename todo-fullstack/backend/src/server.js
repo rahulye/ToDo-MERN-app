@@ -40,6 +40,11 @@ const server = app.listen(PORT, async () => {
 	await connectDB();
 });
 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+
 // SHUTDOWN SERVER & DB
 const gracefulShutdown = async (reason, err) => {
 	if (err) console.error(reason, err);
@@ -67,3 +72,4 @@ process.on("unhandledRejection", (err) =>
 process.on("uncaughtException", (err) =>
 	gracefulShutdown("uncaughtException", err),
 );
+

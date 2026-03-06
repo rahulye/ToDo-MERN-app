@@ -20,13 +20,6 @@ const authmiddleware = async (req, res, next) => {
 			});
 		}
 
-		if (!token || token === "null" || token === "undefined") {
-			return res.status(401).json({
-				status: "Error",
-				message: "Not authorized",
-			});
-		}
-
 		//decode user id
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRETKEY);

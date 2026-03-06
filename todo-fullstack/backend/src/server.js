@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser";
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: ["http://localhost:5173" || process.env.ALLOWED_URL],
+		origin: ["http://localhost:5173" , process.env.ALLOWED_URL],
 		methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
 		credentials: true,
 	}),

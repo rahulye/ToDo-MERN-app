@@ -38,9 +38,9 @@ const register = async (req, res) => {
 		res.status(201).json({
 			status: "Success",
 			message: "Registered Successfully",
-			data : {
-				token
-			}
+			data: {
+				token,
+			},
 		});
 	} catch (err) {
 		console.log(err);
@@ -82,10 +82,10 @@ const login = async (req, res) => {
 		res.status(201).json({
 			status: "Success",
 			message: "Login Successfully",
-			data : {
+			data: {
 				userExist,
-				token
-			}
+				token,
+			},
 		});
 	} catch (err) {
 		console.log(err);
@@ -103,7 +103,7 @@ const logout = async (req, res) => {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			expires: new Date(0),
-			sameSite: true,
+			sameSite: "strict",
 			maxAge: 0,
 		});
 
@@ -135,4 +135,4 @@ const getMe = async (req, res) => {
 	}
 };
 
-export { register, login, logout , getMe };
+export { register, login, logout, getMe };

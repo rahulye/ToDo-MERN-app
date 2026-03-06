@@ -15,6 +15,7 @@ const Register: FC = () => {
 		e: React.MouseEvent<HTMLButtonElement>,
 	): Promise<void> => {
 		e.preventDefault();
+
 		try {
 			const response = await axios.post(
 				`${apiURL}/auth/register`,

@@ -1,18 +1,20 @@
 /** @format */
 
 import express from "express";
-import { config } from "dotenv";
+import dotenv, { config } from "dotenv";
+dotenv.config();
 config({ quiet: true });
 const app = express();
 import { connectDB, disconnectDB } from "./config/db.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+dotenv.config();
 
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: ["http://localhost:5173" , process.env.ALLOWED_URL],
+		origin: [process.env.ALLOWED_URL, "http://localhost:5173"],
 		methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
 		credentials: true,
 	}),
@@ -23,10 +25,10 @@ app.use(express.json());
 
 //ROUTES
 import taskRoutes from "./routes/taskRoutes.js";
-import authRoutes from './routes/authRoutes.js';
+import authRoutes from "./routes/authRoutes.js";
 
 //http://localhost:5001/tasks
-app.use("/auth",authRoutes)
+app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 
 //error middleware
@@ -41,9 +43,8 @@ const server = app.listen(PORT, async () => {
 });
 
 app.get("/", (req, res) => {
-  res.send("API is running...");
+	res.send("API is running...");
 });
-
 
 // SHUTDOWN SERVER & DB
 const gracefulShutdown = async (reason, err) => {
@@ -72,4 +73,3 @@ process.on("unhandledRejection", (err) =>
 process.on("uncaughtException", (err) =>
 	gracefulShutdown("uncaughtException", err),
 );
-

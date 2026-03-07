@@ -1,9 +1,8 @@
 /** @format */
 
 import express from "express";
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
-config({ quiet: true });
 const app = express();
 import { connectDB, disconnectDB } from "./config/db.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
@@ -14,11 +13,7 @@ dotenv.config();
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: [
-			process.env.ALLOWED_URL,
-			"https://to-do-mern-app-chi.vercel.app",
-			"http://localhost:5173",
-		],
+		origin: [process.env.ALLOWED_FRONTEND_URL],
 		methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
 		credentials: true,
 	}),

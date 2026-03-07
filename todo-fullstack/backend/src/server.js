@@ -14,7 +14,11 @@ dotenv.config();
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: [process.env.ALLOWED_URL, "http://localhost:5173"],
+		origin: [
+			process.env.ALLOWED_URL,
+			"https://to-do-mern-app-chi.vercel.app",
+			"http://localhost:5173",
+		],
 		methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
 		credentials: true,
 	}),

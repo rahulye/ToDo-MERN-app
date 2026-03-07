@@ -1,6 +1,7 @@
 /** @format */
 
 import type { FC } from "react";
+import trashIcon from "../assets/trash_icon.png";
 
 interface TaskProps {
 	id: string;
@@ -34,7 +35,7 @@ export const Task: FC<TaskProps> = ({
 				}}
 			></input>
 			<img
-				src="src\assets\trash_icon.png"
+				src={trashIcon}
 				alt="delete icon"
 				className="h-5 ml-5 cursor-pointer"
 				onClick={() => deletetask(id)}

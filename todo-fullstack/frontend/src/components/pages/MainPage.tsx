@@ -31,7 +31,7 @@ export const MainPage: FC = () => {
 	//TOGGLE TASK
 	const toggleStatus = async (id: string): Promise<void> => {
 		try {
-			const response = await api.patch(`/tasks${id}`);
+			const response = await api.patch(`/tasks/${id}`);
 			const updatedTask = response.data.data;
 			console.log(updatedTask);
 			setTasks((prev) => {
